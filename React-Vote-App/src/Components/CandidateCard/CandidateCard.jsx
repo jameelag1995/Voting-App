@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { LoginContext } from "../../Context/LoginContext";
 import "./CandidateCard.css";
+import { ThemeContext } from "../../Context/ThemeContext";
 export default function CandidateCard({
     candidateImg,
     candidateName,
@@ -10,13 +11,11 @@ export default function CandidateCard({
     setCandidates,
     candidates,
 }) {
+    const { darkTheme } = useContext(ThemeContext);
     const [voteClicked, setVoteClicked] = useState(false);
     const { loggedUser, setLoggedUser } = useContext(LoginContext);
-    console.log(loggedUser);
-    console.log(candidateVotes);
-    function handleVote() {
-        console.log("vote");
 
+    function handleVote() {
         // updated candidate votes
         const updatedCandidates = candidates.map((cand) => {
             if (cand.name === candidateName) {
@@ -56,18 +55,26 @@ export default function CandidateCard({
     function displayVoteOption() {
         if (!userVoted) {
             return (
-                <div className="voting-container">
+                <div className={`voting-container `}>
                     {!voteClicked ? <p></p> : <p>Are You Sure?</p>}
                     {!voteClicked ? (
-                        <div className="voting-btn-container">
-                            <button onClick={() => setVoteClicked(true)}>
+                        <div className={`voting-btn-container`}>
+                            <button
+                                className="vote-btn"
+                                onClick={() => setVoteClicked(true)}
+                            >
                                 Vote
                             </button>
                         </div>
                     ) : (
-                        <div className="voting-btn-container">
-                            <button onClick={handleVote}>Yes</button>{" "}
-                            <button onClick={() => setVoteClicked(false)}>
+                        <div className={`voting-btn-container`}>
+                            <button className="vote-btn" onClick={handleVote}>
+                                Yes
+                            </button>{" "}
+                            <button
+                                className="vote-btn-no"
+                                onClick={() => setVoteClicked(false)}
+                            >
                                 No
                             </button>
                         </div>
@@ -77,8 +84,11 @@ export default function CandidateCard({
         } else {
             if (loggedUser.vote.votedTo === candidateName) {
                 return (
-                    <div className="voting-container">
-                        <button onClick={handleChangeVote}>
+                    <div className={`voting-container`}>
+                        <button
+                            className={darkTheme ? "dark" : ""}
+                            onClick={handleChangeVote}
+                        >
                             Change My Vote
                         </button>
                     </div>
@@ -88,8 +98,10 @@ export default function CandidateCard({
     }
 
     return (
-        <div className="CandidateCard">
-            <p id="candidate-votes">{candidateVotes}</p>
+        <div className={`CandidateCard ${darkTheme ? "dark" : ""}`}>
+            <p id="candidate-votes" className={darkTheme ? "dark" : ""}>
+                {candidateVotes}
+            </p>
             <img src={candidateImg} alt="candidate image" />
             <h3>{candidateName}</h3>
             {displayVoteOption()}

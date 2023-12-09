@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
-
+import { MdOutlineLightMode } from "react-icons/md";
+import { MdOutlineDarkMode } from "react-icons/md";
 export const ThemeContext = createContext({ darkTheme: false });
 
 export default function ThemeContextProvider({ children }) {
@@ -13,7 +14,7 @@ export default function ThemeContextProvider({ children }) {
     return (
         <ThemeContext.Provider value={themeContextValues}>
             <button id="theme-switch" className={darkTheme ? 'dark' : ''} onClick={handleThemeSwitch}>
-                {darkTheme ? "Dark-Mode" : "Light-Mode"}
+                {darkTheme ? <MdOutlineDarkMode className="icon"/> : <MdOutlineLightMode className="icon" />}
             </button>
             {children}
         </ThemeContext.Provider>

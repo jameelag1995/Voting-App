@@ -7,7 +7,7 @@ export const CANDIDATES = [{
     img:'../../src/assets/images/rick.png',
     votes:0,
 },{
-    name:'Abu Layla Almuhalhel',
+    name:'AlZeer Salem',
     img:'../../src/assets/images/alzeer.jpg',
     votes:0,
 },{

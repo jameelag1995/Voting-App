@@ -3,9 +3,11 @@ import "./AdminDashboard.css";
 import { CANDIDATES } from "../../data/Data.js";
 import { LoginContext } from "../../Context/LoginContext";
 import BarChart from "../../Components/BarChart/BarChart.jsx";
+import { ThemeContext } from "../../Context/ThemeContext.jsx";
 
 export default function AdminDashboard() {
     const { usersData } = useContext(LoginContext);
+    const { darkTheme } = useContext(ThemeContext);
     const [candidates, setCandidates] = useState(CANDIDATES);
     const [chartData, setChartData] = useState({});
     useEffect(() => {
@@ -30,8 +32,8 @@ export default function AdminDashboard() {
     }, []);
 
     return (
-        <div className="AdminDashboard page">
-            <div className="users-votes-container">
+        <div className={`AdminDashboard page ${darkTheme ? "dark" : ""}`}>
+            <div className={`users-votes-container ${darkTheme ? "dark" : ""}`}>
                 <ul>
                     {usersData.map((usr, index) => {
                         return (
@@ -50,9 +52,13 @@ export default function AdminDashboard() {
                     })}
                 </ul>
             </div>
-            <div className="votes-chart">
-                <BarChart data={chartData} candidates={candidates}/>
-            </div>
+            <>
+                <BarChart
+                    data={chartData}
+                    candidates={candidates}
+                    title="Votes Chart"
+                />
+            </>
         </div>
     );
 }
