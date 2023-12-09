@@ -18,39 +18,39 @@ export default function CandidateCard({
         console.log("vote");
 
         // updated candidate votes
-        const updatedCandidates = candidates.map(cand=>{
-            if(cand.name === candidateName){
-                cand.votes +=1;
-                return cand
+        const updatedCandidates = candidates.map((cand) => {
+            if (cand.name === candidateName) {
+                cand.votes += 1;
+                return cand;
             }
-            return cand
+            return cand;
         });
-       
-        setCandidates([...updatedCandidates])
+
+        setCandidates([...updatedCandidates]);
         // update logged user votes
         setLoggedUser({
             ...loggedUser,
-            vote: { voted: true, votedTo:candidateName  },
+            vote: { voted: true, votedTo: candidateName },
         });
         setUserVoted(true);
     }
 
     function handleChangeVote() {
-        const updatedCandidates = candidates.map(cand=>{
-            if(cand.name === candidateName){
-                cand.votes -=1;
-                return cand
+        const updatedCandidates = candidates.map((cand) => {
+            if (cand.name === candidateName) {
+                cand.votes -= 1;
+                return cand;
             }
-            return cand
+            return cand;
         });
-       
-        setCandidates([...updatedCandidates])
+
+        setCandidates([...updatedCandidates]);
         setLoggedUser({
             ...loggedUser,
             vote: { voted: false, votedTo: "" },
         });
         setUserVoted(false);
-        setVoteClicked(false)
+        setVoteClicked(false);
     }
 
     function displayVoteOption() {
@@ -74,18 +74,16 @@ export default function CandidateCard({
                     )}
                 </div>
             );
-        }
-    }
-
-    function displayChangeVoteOption() {
-        console.log('usr vote',loggedUser.vote.votedTo);
-        console.log('cand name',candidateName);
-        if (loggedUser.vote.votedTo === candidateName) {
-            return (
-                <div className="voting-container">
-                    <button onClick={handleChangeVote}>Change My Vote</button>
-                </div>
-            );
+        } else {
+            if (loggedUser.vote.votedTo === candidateName) {
+                return (
+                    <div className="voting-container">
+                        <button onClick={handleChangeVote}>
+                            Change My Vote
+                        </button>
+                    </div>
+                );
+            } else return;
         }
     }
 
@@ -95,7 +93,6 @@ export default function CandidateCard({
             <img src={candidateImg} alt="candidate image" />
             <h3>{candidateName}</h3>
             {displayVoteOption()}
-            {displayChangeVoteOption()}
         </div>
     );
 }

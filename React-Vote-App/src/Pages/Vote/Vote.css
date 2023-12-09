@@ -1,10 +1,22 @@
 .Vote{
     display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    height: calc(100vh - 100px);
+    padding: 10px 20px;
+    gap: 20px;
+    border: 2px solid saddlebrown;
+    
+}
+.candidates-container{
+    display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
     width: 100%;
-    min-height: 100vh;
     
 }

@@ -1,27 +1,27 @@
 import { createContext, useEffect, useState } from "react";
-import axios from "axios";
+import axios from '../data/axiosConfig'
 
-const url = "https://6571c58bd61ba6fcc0138448.mockapi.io/users";
+const url = "https://6571c58bd61ba6fcc0138448.mockapi.io";
 
 export const LoginContext = createContext({
     loggedUser: {},
-    setLoggedUser:()=>{},
-    usersData:[],
-    setUsersData:()=>{},
+    setLoggedUser: () => {},
+    usersData: [],
+    setUsersData: () => {},
     errMsg: "",
-    isAdmin:false,
+    isAdmin: false,
     handleUserLogin: () => {},
     handleUserLogout: () => {},
 });
 
-export default function LoginContextProvider({ setLogin,children }) {
+export default function LoginContextProvider({ setLogin, children }) {
     const [usersData, setUsersData] = useState([]);
     const [loggedUser, setLoggedUser] = useState({});
     const [isAdmin, setIsAdmin] = useState(false);
     const [errMsg, setErrMsg] = useState("");
     const fetchData = async () => {
         try {
-            const res = await axios.get(url);
+            const res = await axios.get('/users');
             console.log(res);
             setUsersData(res.data);
         } catch (error) {
@@ -32,6 +32,28 @@ export default function LoginContextProvider({ setLogin,children }) {
     useEffect(() => {
         fetchData();
     }, []);
+
+    useEffect(() => {
+        console.log("logged user vote changed");
+        if (loggedUser.id != undefined) {
+            handleVotesUpdate();
+        }
+    }, [loggedUser.vote]);
+
+    async function handleVotesUpdate() {
+        try {
+            let newVote = loggedUser.vote;
+            const res = await axios.put(`/users/${loggedUser.id}`, {
+                vote: newVote,
+            });
+            const updatedData = usersData.map((usr) => {
+                return usr.id === loggedUser.id ? res.data : usr;
+            });
+            setUsersData(updatedData);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     function handleUserLogin(email, password) {
         let currUser = usersData.find((el) => el.email == email);
@@ -50,8 +72,8 @@ export default function LoginContextProvider({ setLogin,children }) {
         }
 
         setLoggedUser(currUser);
-        setErrMsg('');
-        setLogin(true)
+        setErrMsg("");
+        setLogin(true);
         console.log(currUser);
         console.log("Login success");
     }
