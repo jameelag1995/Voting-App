@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import axios from '../data/axiosConfig'
+import axios from "../data/axiosConfig";
 
 const url = "https://6571c58bd61ba6fcc0138448.mockapi.io";
 
@@ -21,7 +21,7 @@ export default function LoginContextProvider({ setLogin, children }) {
     const [errMsg, setErrMsg] = useState("");
     const fetchData = async () => {
         try {
-            const res = await axios.get('/users');
+            const res = await axios.get("/users");
             console.log(res);
             setUsersData(res.data);
         } catch (error) {
@@ -77,7 +77,12 @@ export default function LoginContextProvider({ setLogin, children }) {
         console.log(currUser);
         console.log("Login success");
     }
-    function handleUserLogout(id) {}
+    function handleUserLogout() {
+        setLoggedUser({});
+        setIsAdmin(false);
+        setLogin(false);
+        
+    }
 
     const loginContextValues = {
         loggedUser,

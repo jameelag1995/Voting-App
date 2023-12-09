@@ -6,18 +6,21 @@ import { LoginContext } from "../../Context/LoginContext.jsx";
 export default function Vote() {
     const { loggedUser, usersData } = useContext(LoginContext);
     const [userVoted, setUserVoted] = useState(loggedUser.vote.voted);
-
     const [candidates, setCandidates] = useState(CANDIDATES);
 
     useEffect(() => {
+        const resetedCandidates = candidates.map((cand) => {
+            return { ...cand, votes: 0 };
+        });
         usersData.forEach((usr) => {
             let { voted, votedTo } = usr.vote;
             if (voted) {
-                CANDIDATES.find(
+                resetedCandidates.find(
                     (cand) => cand.name === votedTo && cand.votes++
                 );
             }
         });
+        setCandidates([...resetedCandidates]);
     }, []);
 
     return (
