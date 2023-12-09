@@ -1,13 +1,13 @@
-import { useContext, useState,useEffect} from "react";
+import { useContext, useState, useEffect } from "react";
 import "./AdminDashboard.css";
 import { CANDIDATES } from "../../data/Data.js";
 import { LoginContext } from "../../Context/LoginContext";
-
+import BarChart from "../../Components/BarChart/BarChart.jsx";
 
 export default function AdminDashboard() {
     const { usersData } = useContext(LoginContext);
     const [candidates, setCandidates] = useState(CANDIDATES);
-
+    const [chartData, setChartData] = useState({});
     useEffect(() => {
         const resetedCandidates = candidates.map((cand) => {
             return { ...cand, votes: 0 };
@@ -19,6 +19,11 @@ export default function AdminDashboard() {
                     (cand) => cand.name === votedTo && cand.votes++
                 );
             }
+        });
+        setChartData({
+            ...chartData,
+            labels: resetedCandidates.map((cand) => cand.name),
+            values: resetedCandidates.map((cand) => cand.votes),
         });
 
         setCandidates([...resetedCandidates]);
@@ -46,7 +51,7 @@ export default function AdminDashboard() {
                 </ul>
             </div>
             <div className="votes-chart">
-                
+                <BarChart data={chartData} candidates={candidates}/>
             </div>
         </div>
     );
