@@ -24,13 +24,13 @@ const Login = () => {
             <form className={darkTheme ? 'dark' : ''} onSubmit={handleSubmit}>
                 <h1>Login</h1>
                 <label htmlFor="user-email">Email:</label>
-                <input ref={emailRef} type="email" name="user-email" placeholder="Enter Your Email Here..." />
+                <input className={darkTheme ? 'dark' : ''} ref={emailRef} type="email" name="user-email" placeholder="Enter Your Email Here..." />
                 <label htmlFor="user-password">Password:</label>
-                <input ref={passwordRef} type="password" name="user-password" placeholder="Enter Your Password Here..." />
+                <input className={darkTheme ? 'dark' : ''} ref={passwordRef} type="password" name="user-password" placeholder="Enter Your Password Here..." />
                 <button id="login-btn" className={darkTheme ? 'dark' : ''}>
                     Login
                 </button>
-                <div className="msg-spinner-container">
+                <div className="msg-spinner-container" style={{color:"red"}}>
                     {btnClicked ? <div className="sp sp-hydrogen"></div> : errMsg}
                 </div>
             </form>

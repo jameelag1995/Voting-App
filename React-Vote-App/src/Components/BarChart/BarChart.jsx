@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Chart from "chart.js/auto";
 let myChart;
 const BarChart = ({ data, candidates, title }) => {
-    const ctx = document.getElementById("myChart");
+    let ctx;
     const chartProps = {
         type: "bar",
         data: {
@@ -31,8 +31,7 @@ const BarChart = ({ data, candidates, title }) => {
             plugins: {
                 legend: {
                     labels: {
-                        color: "rgba(54, 162, 235, 1)", 
-                        
+                        color: "rgba(54, 162, 235, 1)",
                     },
                 },
             },
@@ -55,6 +54,7 @@ const BarChart = ({ data, candidates, title }) => {
     };
 
     useEffect(() => {
+        ctx = document.getElementById("myChart");
         if (myChart) {
             myChart.destroy();
             myChart = new Chart(ctx, chartProps);

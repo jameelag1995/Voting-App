@@ -34,7 +34,6 @@ export default function LoginContextProvider({ setLogin, children }) {
     }, []);
 
     useEffect(() => {
-        console.log("logged user vote changed");
         if (loggedUser.id != undefined) {
             handleVotesUpdate();
         }
@@ -58,11 +57,11 @@ export default function LoginContextProvider({ setLogin, children }) {
     function handleUserLogin(email, password) {
         let currUser = usersData.find((el) => el.email == email);
         if (currUser === undefined) {
-            setErrMsg("Email Doesn't Exist");
+            setErrMsg("Email Doesn't Exist!");
             return;
         }
         if (currUser.password !== password) {
-            setErrMsg("Wrong Password");
+            setErrMsg("Wrong Password! Try Again");
             return;
         }
         if (currUser.isAdmin) {
@@ -74,8 +73,6 @@ export default function LoginContextProvider({ setLogin, children }) {
         setLoggedUser(currUser);
         setErrMsg("");
         setLogin(true);
-        console.log(currUser);
-        console.log("Login success");
     }
     function handleUserLogout() {
         setLoggedUser({});
